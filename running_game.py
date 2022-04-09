@@ -64,9 +64,6 @@ box2 = Box("box2", 64, 580, 64, 64)
 box3 = Box("box3", 64, 520, 10, 64)
 box4 = Box("box4", 64, 430, 10, 64)
 
-for box in box_list:
-    print(box.name)
-
 
 def keep_drawing(player, death):
     WIN.fill(COLOR_BACKGROUND)
