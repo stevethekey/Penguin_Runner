@@ -61,6 +61,8 @@ class Box:
 
 box1 = Box("box1", 0, 600, 64, 1024)
 box2 = Box("box2", 64, 580, 64, 64)
+box3 = Box("box3", 64, 520, 10, 64)
+box4 = Box("box4", 64, 430, 10, 64)
 for box in box_list:
     print(box.name)
 
@@ -100,8 +102,11 @@ player = Player("Penguin", 0, 512, runner_model_1, player_width, player_height)
 def collide_top(player, box_list):
     # check is player is colliding with the top of any box
     for box in box_list:
-        if player.rect.colliderect(box.rect):
-            return True
+        # if player.rect.colliderect(box.rect):
+        #     return True
+        if player.rect.bottom >= box.rect.top and player.rect.bottom <= box.rect.bottom:
+            if (player.x >= box.rect.left and player.x <= box.rect.left + box.rect.width) or (player.x + player.rect.width >= box.rect.left and player.x + player.rect.width <= box.rect.left + box.rect.width):
+                return True
 
     return False
 
@@ -115,8 +120,8 @@ def main():
     jump_down_counter = 0
     jumped = False
 
-    #playerName = input("Hey player! Please enter your name: ")
-    #user1 = Player(playerName)
+    # playerName = input("Hey player! Please enter your name: ")
+    # user1 = Player(playerName)
     # user1.reveal_all()
 
     clock = pygame.time.Clock()
@@ -146,11 +151,11 @@ def main():
 
         # moving left to right logic
         if keys[pygame.K_a]:
-            player.move(-4, 0)
+            player.move(-6, 0)
 
         elif keys[pygame.K_d]:
 
-            player.move(4, 0)
+            player.move(6, 0)
 
         WIN.fill(COLOR_BACKGROUND)
         keep_drawing(player, death_box1)
