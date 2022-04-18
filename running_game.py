@@ -34,21 +34,22 @@ class Player:
         self.rect.move_ip(horizontal, vertical)
 
 
-death_list = []
+death_list1 = []
+death_list2 = []
+death_list3 = []
 
 
 class Death:
-    def __init__(self, name, x, y, sprite, height, width):
+    def __init__(self, name, x, y, sprite, height, width, level):
         self.name = name
         self.x = x
         self.y = y
         self.sprite = sprite
         self.rect = pygame.Rect(x, y, width, height)
+        self.level = level
 
-        death_list.append(self)
-
-    def reveal_all(self):
-        print("Your name is ", self.name, " and your score is ", self.score)
+        if level == 1:
+            death_list1.append(self)
 
 
 class PolarBear:
@@ -76,36 +77,77 @@ class Instruction:
         self.rect = pygame.Rect(x, y, width, height)
 
 
-box_list = []
+goal_1 = Igloo("end_goal", 256, 512,
+               pygame.image.load(os.path.join('Images', 'igloo.png')), 64, 64)
+
+goal_2 = Igloo("end_goal", 256, 512,
+               pygame.image.load(os.path.join('Images', 'igloo.png')), 64, 64)
+
+
+box_list1 = []
+box_list2 = []
+box_list3 = []
 
 
 class Box:
 
-    def __init__(self, name, x, y, height, width):
+    def __init__(self, name, x, y, height, width, level):
         self.name = name
         self.x = x
         self.y = y
         self.rect = pygame.Rect(x, y, width, height)
-        box_list.append(self)
+        self.level = level
+
+        if level == 1:
+            box_list1.append(self)
+
+        if level == 2:
+            box_list2.append(self)
+
+        if level == 3:
+            box_list3.append(self)
 
 
-box1 = Box("box1", 0, 600, 64, 1024)
-box2 = Box("box2", 64, 580, 64, 64)
-box3 = Box("box3", 64, 520, 10, 64)
-box4 = Box("box4", 64, 430, 10, 64)
-box5 = Box("box5", 725, 108, 10, 500)
+# level 1 boxes
+box1 = Box("box1", 0, 600, 64, 1024, 1)
+box2 = Box("box2", 64, 580, 64, 64, 1)
+box3 = Box("box3", 64, 520, 10, 64, 1)
+box4 = Box("box4", 64, 430, 10, 64, 1)
+box5 = Box("box5", 725, 108, 10, 500, 1)
+
+# level 2 boxes
+
+# level 3 boxes
+
+level_list = []
 
 
-def keep_drawing(player, death_list, PolarBear, Instruction, Igloo):
+class level:
+
+    def __init__(self, box_list, death_list, goal):
+        self.box_list = box_list
+        self.death_list = death_list
+        self.goal = goal
+        self.level = level
+
+        level_list.append(self)
+
+
+level1 = level(box_list1, death_list1, goal_1)
+level2 = level(box_list2, death_list2, goal_2)
+
+
+
+def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
     WIN.fill(COLOR_BACKGROUND)
 
     WIN.blit(player.sprite, (player.x, player.y))
 
     for d in death_list:
         WIN.blit(d.sprite, (d.x, d.y))
-    # WIN.blit(death.sprite, (death.x, death.y))
-    # WIN.blit(death_2.sprite, (death_2.x, death_2.y))
-    # WIN.blit(death_3.sprite, (death_3.x, death_3.y))
+
+    for box in box_list:
+        pygame.draw.rect(WIN, (50, 50, 50), box.rect)
 
     WIN.blit(PolarBear.sprite, (PolarBear.x, PolarBear.y))
     WIN.blit(Instruction.sprite, (Instruction.x, Instruction.y))
@@ -113,9 +155,6 @@ def keep_drawing(player, death_list, PolarBear, Instruction, Igloo):
 
     pygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
     # pygame.draw.rect(WIN, (50, 50, 50), death.rect, 2)
-
-    for box in box_list:
-        pygame.draw.rect(WIN, (50, 50, 50), box.rect)
 
     pygame.display.update()
 
@@ -133,14 +172,15 @@ def reset(player):
 player_width = 64
 player_height = 64
 
-polarBear = PolarBear("Polar_Bear", 512, 400, pygame.image.load(os.path.join('Images', 'PolarBear.png')), 64, 64)
-death_box1 = Death("death_box1", 512, 512, pygame.image.load("death.png"), 64, 64)
-death_box2 = Death("death_box2", 512, 330, pygame.image.load("death.png"), 64, 64)
-death_spikes = Death("facing_down", 512, 200, pygame.image.load(os.path.join('Images', 'spikes.png')), 32, 32)
-player = Player("Penguin", 200, 512, runner_model_1, player_width, player_height)
-instruction = Instruction("instruction_contents", 25, 15, pygame.image.load(os.path.join('Images', 'instruction.jpg')), 64, 64)
+polarBear = PolarBear("Polar_Bear", 512, 400, pygame.image.load(
+    os.path.join('Images', 'PolarBear.png')), 64, 64)
 
-penguin_home = Igloo("end_goal", 825, -50, pygame.image.load(os.path.join('Images', 'igloo.png')), 64, 64)
+death_box1 = Death("death_box1", 512, 512, pygame.image.load("death.png"), 64, 64, 1)
+death_box2 = Death("death_box2", 512, 330, pygame.image.load("death.png"), 64, 64, 1)
+
+player = Player("Penguin", 0, 512, runner_model_1, player_width, player_height)
+instruction = Instruction("instruction_contents", 25, 15, pygame.image.load(
+    os.path.join('Images', 'instruction.jpg')), 64, 64)
 
 
 def collide_top(player, box_list):
@@ -155,15 +195,16 @@ def collide_top(player, box_list):
     return False
 
 
+print(len(level_list))
+
+
 def main():
+    level_num = 1
+    current_level = level1
 
     jump_up_counter = 0
     jump_down_counter = 0
     jumped = False
-
-    # playerName = input("Hey player! Please enter your name: ")
-    # user1 = Player(playerName)
-    # user1.reveal_all()
 
     clock = pygame.time.Clock()
     run = True
@@ -199,8 +240,8 @@ def main():
             player.move(6, 0)
 
         WIN.fill(COLOR_BACKGROUND)
-        keep_drawing(player, death_list,
-                     polarBear, instruction, penguin_home)
+        keep_drawing(player, current_level.death_list, polarBear,
+                     instruction, goal_1, current_level.box_list)
 
         # jumping logic
         if jumped is True:
@@ -213,14 +254,17 @@ def main():
                 else:
                     jumped = False
 
-        if player.rect.colliderect(death_box1.rect) and jumped is False:
+        if player.rect.colliderect(current_level.goal.rect):
+            level_num += 1
+            print(level_num)
+            current_level = level_list[level_num - 1]
             reset(player)
 
-        for d in death_list:
+        for d in current_level.death_list:
             if player.rect.colliderect(d.rect):
                 reset(player)
 
-        if collide_top(player, box_list):
+        if collide_top(player, current_level.box_list):
             player.falling = False
         else:
             player.falling = True
