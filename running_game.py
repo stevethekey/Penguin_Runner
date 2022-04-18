@@ -108,9 +108,6 @@ def collide_top(player, box_list):
 
     return False
 
-# this is a test again
-# please worketh
-
 
 def main():
 
