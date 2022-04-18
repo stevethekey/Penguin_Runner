@@ -98,6 +98,7 @@ box4 = Box("box4", 64, 430, 10, 64)
 box5 = Box("box5", 725, 108, 10, 500)
 
 
+
 def keep_drawing(player, death, death_2, death_spikes, PolarBear, Instruction, Igloo):
     WIN.fill(COLOR_BACKGROUND)
 
