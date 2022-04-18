@@ -13,6 +13,7 @@ runner_model_1 = pygame.image.load(os.path.join('Images', 'penguin.png'))
 runner_model_1 = pygame.transform.scale(runner_model_1, (64, 64))
 
 
+
 class Player:
     def __init__(self, name, x, y, sprite, height, width):
         self.name = name
@@ -46,6 +47,43 @@ class Death:
         print("Your name is ", self.name, " and your score is ", self.score)
 
 
+
+class PolarBear:
+    def __init__(self, name, x, y, sprite, height, width):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.sprite = sprite
+        self.rect = pygame.Rect(x, y, width, height)
+
+class Instruction:
+    def __init__(self, name, x, y, sprite, height, width):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.sprite = sprite
+        self.rect = pygame.Rect(x, y, width, height)
+
+class Instruction:
+    def __init__(self, name, x, y, sprite, height, width):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.sprite = sprite
+        self.rect = pygame.Rect(x, y, width, height)
+
+class Igloo:
+    def __init__(self, name, x, y, sprite, height, width):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.sprite = sprite
+        self.rect = pygame.Rect(x, y, width, height)
+
+
+    
+
+
 box_list = []
 
 
@@ -59,17 +97,25 @@ class Box:
         box_list.append(self)
 
 
+
 box1 = Box("box1", 0, 600, 64, 1024)
 box2 = Box("box2", 64, 580, 64, 64)
 box3 = Box("box3", 64, 520, 10, 64)
 box4 = Box("box4", 64, 430, 10, 64)
+box5 = Box("box5", 725, 108, 10, 500)
 
 
-def keep_drawing(player, death):
+def keep_drawing(player, death, death_2, death_3, PolarBear, Instruction, Igloo):
     WIN.fill(COLOR_BACKGROUND)
 
     WIN.blit(player.sprite, (player.x, player.y))
     WIN.blit(death.sprite, (death.x, death.y))
+    WIN.blit(death_2.sprite, (death_2.x, death_2.y))
+    WIN.blit(death_3.sprite, (death_3.x, death_3.y))
+    WIN.blit(PolarBear.sprite, (PolarBear.x, PolarBear.y))
+    WIN.blit(Instruction.sprite, (Instruction.x, Instruction.y))
+    WIN.blit(Igloo.sprite, (Igloo.x, Igloo.y))
+
 
     pygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
     pygame.draw.rect(WIN, (50, 50, 50), death.rect, 2)
@@ -93,9 +139,14 @@ def reset(player):
 player_width = 64
 player_height = 64
 
+polarBear = PolarBear("Polar_Bear", 512, 400, pygame.image.load(os.path.join('Images', 'PolarBear.png')), 64, 64)
 death_box1 = Death("death_box1", 512, 512, pygame.image.load("death.png"), 64, 64)
+death_box2 = Death("death_box2", 512, 330, pygame.image.load("death.png"), 64, 64)
+death_box3 = Death("death_boundary", 20, 500, pygame.image.load("death.png"), 300, 300)
 player = Player("Penguin", 0, 512, runner_model_1, player_width, player_height)
+instruction = Instruction("instruction_contents", 25, 15, pygame.image.load(os.path.join('Images', 'instruction.jpg')), 64, 64)
 
+penguin_home = Igloo("end_goal", 825, -50, pygame.image.load(os.path.join('Images', 'igloo.png' )), 64, 64)
 
 def collide_top(player, box_list):
     # check is player is colliding with the top of any box
@@ -156,7 +207,7 @@ def main():
             player.move(6, 0)
 
         WIN.fill(COLOR_BACKGROUND)
-        keep_drawing(player, death_box1)
+        keep_drawing(player, death_box1, death_box2, death_box3, polarBear, instruction, penguin_home)
 
         # jumping logic
         if jumped is True:
@@ -171,6 +222,14 @@ def main():
 
         if player.rect.colliderect(death_box1.rect) and jumped is False:
             reset(player)
+        
+        if player.rect.colliderect(death_box2.rect):
+            reset(player)
+        
+        if player.rect.colliderect(death_box3.rect):
+            reset(player)
+        
+
 
         if collide_top(player, box_list):
             player.falling = False
