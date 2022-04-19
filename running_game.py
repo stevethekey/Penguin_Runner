@@ -40,10 +40,10 @@ death_list3 = []
 
 
 class Death:
-    def __init__(self, x, y, height, width, level):
+    def __init__(self, x, y, height, width, sprite, level):
         self.x = x
         self.y = y
-        self.sprite = pygame.image.load("spikes.png")
+        self.sprite = sprite
         self.rect = pygame.Rect(x, y, width, height)
         self.level = level
 
@@ -51,8 +51,20 @@ class Death:
             death_list1.append(self)
 
 
-death_box1 = Death(512, 512, 10, 40, 1)
-death_box2 = Death(512, 330, 10, 40, 1)
+deathSpike_1 = Death(250, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+deathSpike_2 = Death(282, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+deathSpike_3 = Death(314, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+
+
+deathSpike2_1 = Death(550, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+deathSpike2_2 = Death(582, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+deathSpike2_3 = Death(614, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+deathSpike2_4 = Death(646, 568, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1)
+
+
+
+death_down = Death(512, 330, 16, 32, pygame.image.load(os.path.join('Images', 'spikes.png')), 1)
+
 
 
 class PolarBear:
@@ -111,11 +123,10 @@ class Box:
 
 
 # level 1 boxes
-box1 = Box("box1", 0, 600, 64, 1024, 1)
-box2 = Box("box2", 64, 580, 64, 64, 1)
-box3 = Box("box3", 64, 520, 10, 64, 1)
-box4 = Box("box4", 64, 430, 10, 64, 1)
-box5 = Box("box5", 725, 108, 10, 500, 1)
+box_FLOOR = Box("box1", 0, 600, 64, 1024, 1)
+
+
+igloo_FLOOR = Box("box5", 725, 108, 10, 500, 1)
 
 # level 2 boxes
 box1 = Box("box1", 0, 600, 64, 1024, 2)
@@ -141,8 +152,10 @@ level2 = level(box_list2, death_list2, goal_2)
 level3 = level(box_list3, death_list3, goal_3)
 
 
+
+
 # main graphical
-def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
+def keep_drawing(player, death_list, Instruction, Igloo, box_list):
     WIN.fill(COLOR_BACKGROUND)
 
     WIN.blit(player.sprite, (player.x, player.y))
@@ -153,12 +166,12 @@ def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
     for box in box_list:
         pygame.draw.rect(WIN, (50, 50, 50), box.rect)
 
-    WIN.blit(PolarBear.sprite, (PolarBear.x, PolarBear.y))
     WIN.blit(Instruction.sprite, (Instruction.x, Instruction.y))
     WIN.blit(Igloo.sprite, (Igloo.x, Igloo.y))
 
     pygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
-    # pygame.draw.rect(WIN, (50, 50, 50), death.rect, 2)
+    for a in death_list:
+        pygame.draw.rect(WIN, (50, 50, 50), a.rect , 2)
 
     pygame.display.update()
 
@@ -270,8 +283,7 @@ def main():
                 player.rect.move_ip(0, 8)
 
         WIN.fill(COLOR_BACKGROUND)
-        keep_drawing(player, current_level.death_list, polarBear,
-                     instruction, current_level.goal, current_level.box_list)
+        keep_drawing(player, current_level.death_list, instruction, current_level.goal, current_level.box_list)
 
     pygame.quit()  # pygame will only quit if run is false
 
