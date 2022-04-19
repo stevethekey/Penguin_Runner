@@ -237,7 +237,7 @@ def main():
             if keys[pygame.K_a]:
                 player.move(-6, 0)
 
-        if (player.x + 6 >= 0):
+        if (player.x + 6 < WIN_WIDTH):
             if keys[pygame.K_d]:
                 player.move(6, 0)
 
