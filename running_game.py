@@ -81,7 +81,7 @@ class Igloo:
         self.rect = pygame.Rect(x, y, width, height)
 
 
-goal_1 = Igloo(256, 512, 64, 64)
+goal_1 = Igloo(800, 512, 64, 64)
 
 goal_2 = Igloo(512, 512, 64, 64)
 
@@ -95,8 +95,7 @@ box_list3 = []
 
 class Box:
 
-    def __init__(self, name, x, y, height, width, level):
-        self.name = name
+    def __init__(self, x, y, height, width, level):
         self.x = x
         self.y = y
         self.rect = pygame.Rect(x, y, width, height)
@@ -113,16 +112,17 @@ class Box:
 
 
 # level 1 boxes
-box1 = Box("box1", 0, 600, 64, 1024, 1)
-box2 = Box("box2", 64, 580, 64, 64, 1)
-box3 = Box("box3", 64, 520, 10, 64, 1)
-box4 = Box("box4", 64, 430, 10, 64, 1)
-box5 = Box("box5", 725, 108, 10, 500, 1)
+box1 = Box(0, 600, 64, 1024, 1)
+box2 = Box(64, 580, 64, 64, 1)
+box3 = Box(64, 520, 10, 64, 1)
+box4 = Box(64, 430, 10, 64, 1)
+box5 = Box(725, 108, 10, 500, 1)
 
 # level 2 boxes
-box1 = Box("box1", 0, 600, 64, 1024, 2)
+box1 = Box(0, 600, 64, 1024, 2)
 
 # level 3 boxes
+box1 = Box(0, 600, 64, 1024, 3)
 
 level_list = []
 
@@ -199,6 +199,14 @@ def collide_top(player, box_list):
     return False
 
 
+def collide_left(player, box_list):
+    for box in box_list:
+        if (player.x >= box.rect.left and player.x <= box.rect.left + box.rect.width):
+            return True
+
+    return False
+
+
 def main():
     level_num = 1
     current_level = level1
@@ -268,8 +276,7 @@ def main():
 
         if player.falling is True:
             if jumped is False:
-                player.y += 8
-                player.rect.move_ip(0, 8)
+                player.move(0, 8)
 
         WIN.fill(COLOR_BACKGROUND)
         keep_drawing(player, current_level.death_list, polarBear,
