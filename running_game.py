@@ -52,6 +52,10 @@ class Death:
             death_list1.append(self)
 
 
+death_box1 = Death("death_box1", 512, 512, pygame.image.load("death.png"), 64, 64, 1)
+death_box2 = Death("death_box2", 512, 330, pygame.image.load("death.png"), 64, 64, 1)
+
+
 class PolarBear:
     def __init__(self, name, x, y, sprite, height, width):
         self.name = name
@@ -61,11 +65,10 @@ class PolarBear:
         self.rect = pygame.Rect(x, y, width, height)
 
 class Igloo:
-    def __init__(self, name, x, y, sprite, height, width):
-        self.name = name
+    def __init__(self, x, y, height, width):
         self.x = x
         self.y = y
-        self.sprite = sprite
+        self.sprite = pygame.image.load(os.path.join('Images', 'igloo.png'))
         self.rect = pygame.Rect(x, y, width, height)
 
 class Instruction:
@@ -73,15 +76,15 @@ class Instruction:
         self.name = name
         self.x = x
         self.y = y
-        self.sprite = sprite
+        self.sprite = pygame.image.load(os.path.join('Images', 'instruction.jpg'))
         self.rect = pygame.Rect(x, y, width, height)
 
 
-goal_1 = Igloo("end_goal", 256, 512,
-               pygame.image.load(os.path.join('Images', 'igloo.png')), 64, 64)
+goal_1 = Igloo(825, -50, 64, 64)
 
-goal_2 = Igloo("end_goal", 256, 512,
-               pygame.image.load(os.path.join('Images', 'igloo.png')), 64, 64)
+goal_2 = Igloo(512, 512, 64, 64)
+
+goal_3 = Igloo(512, 512, 64, 64)
 
 
 box_list1 = []
@@ -116,6 +119,7 @@ box4 = Box("box4", 64, 430, 10, 64, 1)
 box5 = Box("box5", 725, 108, 10, 500, 1)
 
 # level 2 boxes
+box1 = Box("box1", 0, 600, 64, 1024, 2)
 
 # level 3 boxes
 
@@ -135,9 +139,10 @@ class level:
 
 level1 = level(box_list1, death_list1, goal_1)
 level2 = level(box_list2, death_list2, goal_2)
+level3 = level(box_list3, death_list3, goal_3)
 
 
-
+# main graphical
 def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
     WIN.fill(COLOR_BACKGROUND)
 
@@ -175,8 +180,6 @@ player_height = 64
 polarBear = PolarBear("Polar_Bear", 512, 400, pygame.image.load(
     os.path.join('Images', 'PolarBear.png')), 64, 64)
 
-death_box1 = Death("death_box1", 512, 512, pygame.image.load("death.png"), 64, 64, 1)
-death_box2 = Death("death_box2", 512, 330, pygame.image.load("death.png"), 64, 64, 1)
 
 player = Player("Penguin", 0, 512, runner_model_1, player_width, player_height)
 instruction = Instruction("instruction_contents", 25, 15, pygame.image.load(
@@ -193,9 +196,6 @@ def collide_top(player, box_list):
                 return True
 
     return False
-
-
-print(len(level_list))
 
 
 def main():
@@ -241,7 +241,7 @@ def main():
 
         WIN.fill(COLOR_BACKGROUND)
         keep_drawing(player, current_level.death_list, polarBear,
-                     instruction, goal_1, current_level.box_list)
+                     instruction, current_level.goal, current_level.box_list)
 
         # jumping logic
         if jumped is True:
