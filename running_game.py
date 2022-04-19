@@ -82,7 +82,7 @@ class Igloo:
         self.sprite = pygame.transform.scale(self.sprite, (height, width))
 
 
-goal_1 = Igloo(800, 512, 64, 64)
+goal_1 = Igloo(825, 25, 64, 64)
 
 goal_2 = Igloo(0, 0, 96, 96)
 
@@ -113,16 +113,54 @@ class Box:
 
 
 # level 1 boxes
-box1 = Box(0, 600, 64, 1024, 1)
-box2 = Box(64, 580, 64, 64, 1)
-box3 = Box(64, 520, 10, 64, 1)
-box4 = Box(64, 430, 10, 64, 1)
-box5 = Box(725, 108, 10, 500, 1)
+box_FLOOR = Box(0, 600, 64, 1024, 1)
+igloo_FLOOR = Box(725, 108, 10, 500, 1)
 
-box6 = Box(256, 512, 64, 64, 1)
+floor_jump1 = Box(875, 500, 10, 150, 1)
+jump2 = Box(875, 375, 10, 150, 1)
 
-death_box1 = Death(512, 512, 10, 40, 1)
-death_box2 = Death(512, 330, 10, 40, 1)
+far_right_jump = Box(500, 300, 10, 150, 1)
+
+middle_jump = Box(400, 250, 10, 64, 1)
+
+scary_jump = Box(300, 300, 10, 64, 1)
+
+polar_stage = Box(300, 108, 10, 300, 1)
+
+instruction_stage = Box(25, 100, 10, 215, 1)
+
+teleporter_stage = Box(0, 390, 10, 64, 1)
+
+box_fix = Box(167, 211, 40, 90, 1)
+# box1 = Box(0, 600, 64, 1024, 1)
+# box2 = Box(64, 580, 64, 64, 1)
+# box3 = Box(64, 520, 10, 64, 1)
+# box4 = Box(64, 430, 10, 64, 1)
+# box5 = Box(725, 108, 10, 500, 1)
+#
+# box6 = Box(256, 512, 64, 64, 1)
+#
+# death_box1 = Death(512, 512, 10, 40, 1)
+# death_box2 = Death(512, 330, 10, 40, 1)
+
+deathSpike_1 = Death(250, 584, 16, 32, 1)
+deathSpike_2 = Death(282, 584, 16, 32, 1)
+deathSpike_3 = Death(314, 584, 16, 32, 1)
+
+
+deathSpike2_1 = Death(550, 584, 16, 32, 1)
+deathSpike2_2 = Death(582, 584, 16, 32, 1)
+deathSpike2_3 = Death(614, 584, 16, 32, 1)
+deathSpike2_4 = Death(646, 584, 16, 32, 1)
+
+death_down = Death(875, 510, 16, 32, 1)
+death_down2 = Death(995, 510, 16, 32, 1)
+
+
+death_middle = Death(400, 234, 16, 32, 1)
+death_middle2 = Death(432, 234, 16, 32, 1)
+
+death_fix = Death(651, 75, 16, 32, 1)
 
 # level 2 boxes
 box21 = Box(0, 600, 64, 1024, 2)
