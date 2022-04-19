@@ -43,7 +43,7 @@ class Death:
     def __init__(self, x, y, height, width, level):
         self.x = x
         self.y = y
-        self.sprite = pygame.image.load("death.png")
+        self.sprite = pygame.image.load("spikes.png")
         self.rect = pygame.Rect(x, y, width, height)
         self.level = level
 
@@ -51,8 +51,8 @@ class Death:
             death_list1.append(self)
 
 
-death_box1 = Death(512, 512, 64, 64, 1)
-death_box2 = Death(512, 330, 64, 64, 1)
+death_box1 = Death(512, 512, 10, 40, 1)
+death_box2 = Death(512, 330, 10, 40, 1)
 
 
 class PolarBear:
