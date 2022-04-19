@@ -50,9 +50,8 @@ class Death:
         if level == 1:
             death_list1.append(self)
 
-
-death_box1 = Death(512, 512, 10, 40, 1)
-death_box2 = Death(512, 330, 10, 40, 1)
+        if level == 2:
+            death_list2.append(self)
 
 
 class PolarBear:
@@ -80,12 +79,14 @@ class Igloo:
         self.sprite = pygame.image.load(os.path.join('Images', 'igloo.png'))
         self.rect = pygame.Rect(x, y, width, height)
 
+        self.sprite = pygame.transform.scale(self.sprite, (height, width))
+
 
 goal_1 = Igloo(800, 512, 64, 64)
 
-goal_2 = Igloo(512, 512, 64, 64)
+goal_2 = Igloo(0, 0, 96, 96)
 
-goal_3 = Igloo(512, 512, 64, 64)
+goal_3 = Igloo(1024, 1024, 64, 64)
 
 
 box_list1 = []
@@ -118,11 +119,61 @@ box3 = Box(64, 520, 10, 64, 1)
 box4 = Box(64, 430, 10, 64, 1)
 box5 = Box(725, 108, 10, 500, 1)
 
+box6 = Box(256, 512, 64, 64, 1)
+
+death_box1 = Death(512, 512, 10, 40, 1)
+death_box2 = Death(512, 330, 10, 40, 1)
+
 # level 2 boxes
-box1 = Box(0, 600, 64, 1024, 2)
+box21 = Box(0, 600, 64, 1024, 2)
+box22 = Box(67, 550, 64, 64, 2)
+box23 = Box(90, 425, 8, 64, 2)
+
+box24 = Box(553, 340, 8, 64, 2)
+box25 = Box(553, 475, 8, 64, 2)
+
+box26 = Box(951, 340, 8, 64, 2)
+box27 = Box(951, 475, 8, 64, 2)
+
+box28 = Box(951, 205, 8, 64, 2)
+
+box29 = Box(640, 182, 8, 64, 2)
+
+box210 = Box(509, 45, 8, 64, 2)
+
+box211 = Box(130, 113, 8, 64, 2)
+
+
+death_box21 = Death(90, 470, 10, 40, 2)
+death_box22 = Death(130, 550, 10, 40, 2)
+
+death_box23 = Death(200, 290, 10, 40, 2)
+death_box24 = Death(155, 440, 10, 40, 2)
+
+death_box25 = Death(364, 562, 10, 40, 2)
+death_box26 = Death(480, 562, 10, 40, 2)
+
+death_box27 = Death(733, 300, 10, 40, 2)
+
+death_box28 = Death(703, 369, 10, 40, 2)
+
+death_box29 = Death(685, 432, 10, 40, 2)
+
+death_box29 = Death(663, 491, 10, 40, 2)
+
+death_box210 = Death(639, 548, 10, 40, 2)
+
+death_box210 = Death(906, 297, 10, 40, 2)
+death_box211 = Death(872, 365, 10, 40, 2)
+
+death_box212 = Death(830, 439, 10, 40, 2)
+death_box213 = Death(140, 72, 10, 40, 2)
+
+box214 = Box(130, 113, 8, 64, 2)
 
 # level 3 boxes
-box1 = Box(0, 600, 64, 1024, 3)
+box31 = Box(0, 600, 64, 1024, 3)
+
 
 level_list = []
 
@@ -145,8 +196,7 @@ level3 = level(box_list3, death_list3, goal_3)
 
 # main graphical
 def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
-    WIN.fill(COLOR_BACKGROUND)
-
+    WIN.blit(Instruction.sprite, (Instruction.x, Instruction.y))
     WIN.blit(player.sprite, (player.x, player.y))
 
     for d in death_list:
@@ -155,11 +205,12 @@ def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
     for box in box_list:
         pygame.draw.rect(WIN, (50, 50, 50), box.rect)
 
-    WIN.blit(PolarBear.sprite, (PolarBear.x, PolarBear.y))
-    WIN.blit(Instruction.sprite, (Instruction.x, Instruction.y))
+    # WIN.blit(PolarBear.sprite, (PolarBear.x, PolarBear.y))
+
     WIN.blit(Igloo.sprite, (Igloo.x, Igloo.y))
 
-    pygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
+    # pygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
+    # pygame.draw.rect(WIN, (255, 0, 0), Igloo.rect, 2)
     # pygame.draw.rect(WIN, (50, 50, 50), death.rect, 2)
 
     pygame.display.update()
@@ -199,14 +250,6 @@ def collide_top(player, box_list):
     return False
 
 
-def collide_left(player, box_list):
-    for box in box_list:
-        if (player.x >= box.rect.left and player.x <= box.rect.left + box.rect.width):
-            return True
-
-    return False
-
-
 def main():
     level_num = 1
     current_level = level1
@@ -237,6 +280,11 @@ def main():
         pos = pygame.mouse.get_pos()
 
         pressed1, pressed2, pressed3 = pygame.mouse.get_pressed()
+
+        if pressed1:
+            player.x, player.y = pos
+            player.rect = pygame.Rect(pos[0], pos[1], player_width, player_height)
+            print(pos)
 
         keys = pygame.key.get_pressed()
 
@@ -279,6 +327,10 @@ def main():
                 player.move(0, 8)
 
         WIN.fill(COLOR_BACKGROUND)
+
+        if level_num == 3:
+            WIN.blit(pygame.image.load("win screen.png"), (170, 170))
+
         keep_drawing(player, current_level.death_list, polarBear,
                      instruction, current_level.goal, current_level.box_list)
 
