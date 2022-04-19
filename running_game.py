@@ -40,11 +40,10 @@ death_list3 = []
 
 
 class Death:
-    def __init__(self, name, x, y, sprite, height, width, level):
-        self.name = name
+    def __init__(self, x, y, height, width, level):
         self.x = x
         self.y = y
-        self.sprite = sprite
+        self.sprite = pygame.image.load("death.png")
         self.rect = pygame.Rect(x, y, width, height)
         self.level = level
 
@@ -52,8 +51,8 @@ class Death:
             death_list1.append(self)
 
 
-death_box1 = Death("death_box1", 512, 512, pygame.image.load("death.png"), 64, 64, 1)
-death_box2 = Death("death_box2", 512, 330, pygame.image.load("death.png"), 64, 64, 1)
+death_box1 = Death(512, 512, 64, 64, 1)
+death_box2 = Death(512, 330, 64, 64, 1)
 
 
 class PolarBear:
@@ -234,16 +233,13 @@ def main():
         keys = pygame.key.get_pressed()
 
         # moving left to right logic
-        if keys[pygame.K_a]:
-            player.move(-6, 0)
+        if (player.x - 6 >= 0):
+            if keys[pygame.K_a]:
+                player.move(-6, 0)
 
-        elif keys[pygame.K_d]:
-
-            player.move(6, 0)
-
-        WIN.fill(COLOR_BACKGROUND)
-        keep_drawing(player, current_level.death_list, polarBear,
-                     instruction, current_level.goal, current_level.box_list)
+        if (player.x + 6 >= 0):
+            if keys[pygame.K_d]:
+                player.move(6, 0)
 
         # jumping logic
         if jumped is True:
@@ -258,7 +254,6 @@ def main():
 
         if player.rect.colliderect(current_level.goal.rect):
             level_num += 1
-            print(level_num)
             current_level = level_list[level_num - 1]
             reset(player)
 
@@ -275,6 +270,10 @@ def main():
             if jumped is False:
                 player.y += 8
                 player.rect.move_ip(0, 8)
+
+        WIN.fill(COLOR_BACKGROUND)
+        keep_drawing(player, current_level.death_list, polarBear,
+                     instruction, current_level.goal, current_level.box_list)
 
     pygame.quit()  # pygame will only quit if run is false
 
