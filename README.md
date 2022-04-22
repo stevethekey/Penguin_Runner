@@ -1,5 +1,5 @@
 # Penguin_Runner
-Penguin runner is a basic platformer style game made exclusively using the pygame library. One controls the penguin with a, d, and space to move left, right, and jump respectively. There are two levels and a "win" level. Avoid the spikes to reach the igloo to make the next level. 
+Penguin runner is a basic platformer style game made exclusively using the pygame library. One controls the penguin with a, d, and space to move left, right, and jump respectively. There are two levels and a "win" level. Avoid the spikes to reach the igloo to make the next level. To play the game, simply run the running_game.py file with pygame installed and the images loaded in the directory. 
 
 Libraries: 
 pygame
