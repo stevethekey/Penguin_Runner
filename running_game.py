@@ -40,18 +40,24 @@ death_list3 = []
 
 
 class Death:
-    def __init__(self, x, y, height, width, level):
+    def __init__(self, x, y, height, width, sprite, level, special):
         self.x = x
         self.y = y
-        self.sprite = pygame.image.load("spikes.png")
+        self.sprite = sprite
         self.rect = pygame.Rect(x, y, width, height)
         self.level = level
+        self.special = special
 
         if level == 1:
             death_list1.append(self)
 
         if level == 2:
             death_list2.append(self)
+
+
+#level 1 boxes
+
+
 
 
 class PolarBear:
@@ -62,16 +68,6 @@ class PolarBear:
         self.sprite = sprite
         self.rect = pygame.Rect(x, y, width, height)
 
-
-class Instruction:
-    def __init__(self, name, x, y, sprite, height, width):
-        self.name = name
-        self.x = x
-        self.y = y
-        self.sprite = sprite
-        self.rect = pygame.Rect(x, y, width, height)
-
-
 class Igloo:
     def __init__(self, x, y, height, width):
         self.x = x
@@ -79,24 +75,28 @@ class Igloo:
         self.sprite = pygame.image.load(os.path.join('Images', 'igloo.png'))
         self.rect = pygame.Rect(x, y, width, height)
 
-        self.sprite = pygame.transform.scale(self.sprite, (height, width))
+
+class Instruction:
+    def __init__(self, name, x, y, sprite, height, width):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.sprite = pygame.image.load(os.path.join('Images', 'instruction.jpg'))
+        self.rect = pygame.Rect(x, y, width, height)
 
 
-goal_1 = Igloo(825, 25, 64, 64)
-
-goal_2 = Igloo(0, 0, 96, 96)
-
-goal_3 = Igloo(1024, 1024, 64, 64)
-
+goal_1 = Igloo(825, -50, 64, 64)
+goal_2 = Igloo(10, -50, 64, 64)
+goal_3 = Igloo(800, 450, 64, 64)
 
 box_list1 = []
 box_list2 = []
 box_list3 = []
 
-
 class Box:
 
-    def __init__(self, x, y, height, width, level):
+    def __init__(self, name, x, y, height, width, level):
+        self.name = name
         self.x = x
         self.y = y
         self.rect = pygame.Rect(x, y, width, height)
@@ -113,105 +113,75 @@ class Box:
 
 
 # level 1 boxes
-box_FLOOR = Box(0, 600, 64, 1024, 1)
-igloo_FLOOR = Box(725, 108, 10, 500, 1)
+box_FLOOR = Box("box1", 0, 600, 64, 1024, 1)
+igloo_FLOOR = Box("IGLOO_FLOOR", 725, 108, 10, 500, 1)
 
-floor_jump1 = Box(875, 500, 10, 150, 1)
-jump2 = Box(875, 375, 10, 150, 1)
+floor_jump1 = Box("elevate_1", 875, 500, 10, 150, 1)
+jump2 = Box("elevate2", 875, 375, 10, 150, 1)
 
-far_right_jump = Box(500, 300, 10, 150, 1)
+far_right_jump = Box("elevate2", 500, 300, 10, 150, 1)
 
-middle_jump = Box(400, 250, 10, 64, 1)
+middle_jump = Box("elevate3", 400, 250, 10, 64, 1)
 
-scary_jump = Box(300, 300, 10, 64, 1)
+scary_jump = Box("after_floating_spike", 300, 300, 10, 64, 1)
 
-polar_stage = Box(300, 108, 10, 300, 1)
+polar_stage = Box("polar_bear_floor", 300, 108, 10, 300, 1)
 
-instruction_stage = Box(25, 100, 10, 215, 1)
+instruction_stage = Box("inbetween_2_instru_stage", 25, 100, 10, 215, 1)
 
-teleporter_stage = Box(0, 390, 10, 64, 1)
-
-box_fix = Box(167, 211, 40, 90, 1)
-# box1 = Box(0, 600, 64, 1024, 1)
-# box2 = Box(64, 580, 64, 64, 1)
-# box3 = Box(64, 520, 10, 64, 1)
-# box4 = Box(64, 430, 10, 64, 1)
-# box5 = Box(725, 108, 10, 500, 1)
-#
-# box6 = Box(256, 512, 64, 64, 1)
-#
-# death_box1 = Death(512, 512, 10, 40, 1)
-# death_box2 = Death(512, 330, 10, 40, 1)
-
-deathSpike_1 = Death(250, 584, 16, 32, 1)
-deathSpike_2 = Death(282, 584, 16, 32, 1)
-deathSpike_3 = Death(314, 584, 16, 32, 1)
+teleporter_stage = Box("to_instruction_stage", 0, 390, 10, 64, 1 )
 
 
-deathSpike2_1 = Death(550, 584, 16, 32, 1)
-deathSpike2_2 = Death(582, 584, 16, 32, 1)
-deathSpike2_3 = Death(614, 584, 16, 32, 1)
-deathSpike2_4 = Death(646, 584, 16, 32, 1)
-
-death_down = Death(875, 510, 16, 32, 1)
-death_down2 = Death(995, 510, 16, 32, 1)
+deathSpike_1 = Death(250, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+deathSpike_2 = Death(282, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+deathSpike_3 = Death(314, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
 
 
-death_middle = Death(400, 234, 16, 32, 1)
-death_middle2 = Death(432, 234, 16, 32, 1)
+deathSpike2_1 = Death(550, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+deathSpike2_2 = Death(582, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+deathSpike2_3 = Death(614, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+deathSpike2_4 = Death(646, 584, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
 
-death_fix = Death(651, 75, 16, 32, 1)
+death_down = Death(875, 510, 16, 32, pygame.image.load(os.path.join('Images', 'spikes.png')), 1, 0)
+death_down2 = Death(995, 510, 16, 32, pygame.image.load(os.path.join('Images', 'spikes.png')), 1, 0)
 
+death_middle = Death(400, 234, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+death_middle2= Death(432, 234, 16, 32, pygame.image.load(os.path.join('Images', 'spikes_up.png')), 1, 0)
+
+crazyFishTELEPORTER = Death(0, 330, 64, 64, pygame.image.load(os.path.join('Images', 'fishy_fish.png')), 1, 1)
 # level 2 boxes
-box21 = Box(0, 600, 64, 1024, 2)
-box22 = Box(67, 550, 64, 64, 2)
-box23 = Box(90, 425, 8, 64, 2)
+box1 = Box("box1", 0, 600, 64, 1024, 2)
+box21 = Box("box", 0, 600, 64, 1024, 2)
+box22 = Box("box",67, 550, 64, 64, 2)
+box23 = Box("box",90, 425, 8, 64, 2)
+box24 = Box("box",553, 340, 8, 64, 2)
+box25 = Box("box",553, 475, 8, 64, 2)
+box26 = Box("box",951, 340, 8, 64, 2)
+box27 = Box("box",951, 475, 8, 64, 2)
+box28 = Box("box",951, 205, 8, 64, 2)
+box29 = Box("box",640, 182, 8, 64, 2)
+box210 = Box("box",509, 45, 8, 64, 2)
+box211 = Box("box",130, 113, 8, 64, 2)
+box214 = Box("box", 130, 113, 8, 64, 2)
 
-box24 = Box(553, 340, 8, 64, 2)
-box25 = Box(553, 475, 8, 64, 2)
-
-box26 = Box(951, 340, 8, 64, 2)
-box27 = Box(951, 475, 8, 64, 2)
-
-box28 = Box(951, 205, 8, 64, 2)
-
-box29 = Box(640, 182, 8, 64, 2)
-
-box210 = Box(509, 45, 8, 64, 2)
-
-box211 = Box(130, 113, 8, 64, 2)
-
-
-death_box21 = Death(90, 470, 10, 40, 2)
-death_box22 = Death(130, 550, 10, 40, 2)
-
-death_box23 = Death(200, 290, 10, 40, 2)
-death_box24 = Death(155, 440, 10, 40, 2)
-
-death_box25 = Death(364, 562, 10, 40, 2)
-death_box26 = Death(480, 562, 10, 40, 2)
-
-death_box27 = Death(733, 300, 10, 40, 2)
-
-death_box28 = Death(703, 369, 10, 40, 2)
-
-death_box29 = Death(685, 432, 10, 40, 2)
-
-death_box29 = Death(663, 491, 10, 40, 2)
-
-death_box210 = Death(639, 548, 10, 40, 2)
-
-death_box210 = Death(906, 297, 10, 40, 2)
-death_box211 = Death(872, 365, 10, 40, 2)
-
-death_box212 = Death(830, 439, 10, 40, 2)
-death_box213 = Death(140, 72, 10, 40, 2)
-
-box214 = Box(130, 113, 8, 64, 2)
+death_box21 = Death(90, 470, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box22 = Death(130, 550, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box23 = Death(200, 290, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box24 = Death(155, 440, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box25 = Death(364, 562, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box26 = Death(480, 562, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box27 = Death(733, 300, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box28 = Death(703, 369, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box29 = Death(685, 432, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box29 = Death(663, 491, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box210 = Death(639, 548, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box210 = Death(906, 297, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box211 = Death(872, 365, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box212 = Death(830, 439, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
+death_box213 = Death(140, 72, 10, 40, pygame.image.load(os.path.join('Images', 'david_spikes.png')), 2, 0)
 
 # level 3 boxes
-box31 = Box(0, 600, 64, 1024, 3)
-
+box31 = Box("box", 0, 600, 64, 1024, 3)
 
 level_list = []
 
@@ -232,24 +202,26 @@ level2 = level(box_list2, death_list2, goal_2)
 level3 = level(box_list3, death_list3, goal_3)
 
 
+
+
 # main graphical
-def keep_drawing(player, death_list, PolarBear, Instruction, Igloo, box_list):
+def keep_drawing(player, death_list, Instruction, Igloo, box_list):
+
+    for box in box_list:
+        pygame.draw.rect(WIN, (50, 50, 50), box.rect)
+
     WIN.blit(Instruction.sprite, (Instruction.x, Instruction.y))
+
     WIN.blit(player.sprite, (player.x, player.y))
 
     for d in death_list:
         WIN.blit(d.sprite, (d.x, d.y))
 
-    for box in box_list:
-        pygame.draw.rect(WIN, (50, 50, 50), box.rect)
-
-    # WIN.blit(PolarBear.sprite, (PolarBear.x, PolarBear.y))
-
     WIN.blit(Igloo.sprite, (Igloo.x, Igloo.y))
 
-    # pygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
-    # pygame.draw.rect(WIN, (255, 0, 0), Igloo.rect, 2)
-    # pygame.draw.rect(WIN, (50, 50, 50), death.rect, 2)
+    #dpygame.draw.rect(WIN, (255, 0, 0), player.rect, 2)
+    #for a in death_list:
+    #    pygame.draw.rect(WIN, (50, 50, 50), a.rect , 2)
 
     pygame.display.update()
 
@@ -263,17 +235,20 @@ def reset(player):
     player.y = start_y
     player.rect = pygame.Rect(start_x, start_y, player_width, player_height)
 
+def level1_teleporter(player):
+    player.x = 145
+    player.y = 24
+    player.rect = pygame.Rect(145, 24, player_width, player_height)
 
 player_width = 64
 player_height = 64
 
-polarBear = PolarBear("Polar_Bear", 512, 400, pygame.image.load(
-    os.path.join('Images', 'PolarBear.png')), 64, 64)
 
 
 player = Player("Penguin", 0, 512, runner_model_1, player_width, player_height)
 instruction = Instruction("instruction_contents", 25, 15, pygame.image.load(
     os.path.join('Images', 'instruction.jpg')), 64, 64)
+
 
 
 def collide_top(player, box_list):
@@ -319,10 +294,12 @@ def main():
 
         pressed1, pressed2, pressed3 = pygame.mouse.get_pressed()
 
+        keys = pygame.key.get_pressed()
+
         if pressed1:
             player.x, player.y = pos
             player.rect = pygame.Rect(pos[0], pos[1], player_width, player_height)
-            print(pos)
+            #print(pos)
 
         keys = pygame.key.get_pressed()
 
@@ -352,7 +329,10 @@ def main():
             reset(player)
 
         for d in current_level.death_list:
-            if player.rect.colliderect(d.rect):
+
+            if player.rect.colliderect(d.rect) and d.special == 1:
+                level1_teleporter(player)
+            elif player.rect.colliderect(d.rect):
                 reset(player)
 
         if collide_top(player, current_level.box_list):
@@ -362,18 +342,18 @@ def main():
 
         if player.falling is True:
             if jumped is False:
-                player.move(0, 8)
+                player.y += 8
+                player.rect.move_ip(0, 8)
 
         WIN.fill(COLOR_BACKGROUND)
-
         if level_num == 3:
             WIN.blit(pygame.image.load("win screen.png"), (170, 170))
+                
 
-        keep_drawing(player, current_level.death_list, polarBear,
-                     instruction, current_level.goal, current_level.box_list)
+        keep_drawing(player, current_level.death_list, instruction, current_level.goal, current_level.box_list)
 
     pygame.quit()  # pygame will only quit if run is false
 
 
-if __name__ == "__main__":  # if mario.py is the executable, then execute main
+if __name__ == "__main__":  
     main()
